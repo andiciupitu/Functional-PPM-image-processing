@@ -12,7 +12,7 @@ class Tests extends munit.FunSuite {
     else Pixel(0, 0, 0)
   }
 
-  // vertical
+   // vertical
   test("Vertical Small (2p)") {
     val black = Solution.fromStringPPM(Util.readEntire("input/black.ppm").toList)
     val white = Solution.fromStringPPM(Util.readEntire("input/white.ppm").toList)
