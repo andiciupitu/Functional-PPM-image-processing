@@ -17,7 +17,6 @@ object Solution {
     val pixels = pixelData.map(p => Pixel((p(0) * 255) / maxColor, (p(1) * 255) / maxColor, (p(2) * 255) / maxColor))
     // Grupăm pixelii în rânduri pentru a forma o listă de liste de pixeli
     pixels.grouped(width).toList
-
   }
   def toStringPPM(image: Image): List[Char] = {
     val width = image.head.length
@@ -85,5 +84,25 @@ object Solution {
 
   // ex 5
   def moduloPascal(m: Integer, funct: Integer => Pixel, size: Integer): Image = {
- 
+    def pascalTriangle(n: Int): List[List[Int]] = {
+         if (n == 0) List.empty
+         else if (n == 1) List(List(1))
+         else {
+           val previousTriangle = pascalTriangle(n - 1)
+           val previousRow = previousTriangle.last
+           val newRow = (previousRow :+ 0).zip(0 +: previousRow).map { case (a, b) => (a + b) % m }
+           previousTriangle :+ newRow
+         }
+    }
+    def completeLists(lst: List[List[Int]], n: Int): List[List[Int]] = {
+      def completeList(list: List[Int], size: Int): List[Int] = {
+        if (list.size == size) list
+        else completeList(5 :: list, size)
+      }
+      lst.map(list => completeList(list, n)).map(_.reverse)
+    }
+    val matrix = pascalTriangle(size)
+    val newMatrix = completeLists(matrix,size).map(_.map(elem => funct(elem.toInt)))
+    newMatrix
+  }
 }
