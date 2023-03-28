@@ -1,4 +1,7 @@
-import util.Pixel
+import util.{Pixel, Util}
+import java.io.{File, FileWriter}
+import scala.annotation.tailrec
+import scala.io.Source
 
 // Online viewer: https://0xc0de.fr/webppm/
 object Solution {
@@ -78,9 +81,36 @@ object Solution {
     List(-1,-2,-1)
   )
 
-  def edgeDetection(image: Image, threshold : Double): Image = ???
 
-  def applyConvolution(image: GrayscaleImage, kernel: GrayscaleImage) : GrayscaleImage = ???
+  def edgeDetection(image: Image, threshold : Double): Image = {
+    val grayscaleImage = image.map(x => x.map(y => Util.toGrayScale(y)))
+    val blurGausian = applyConvolution(grayscaleImage,gaussianBlurKernel)
+    val Mx = applyConvolution(blurGausian, Gx)
+    val My = applyConvolution(blurGausian, Gy)
+    val matrix = Mx.zip(My).map { case (row1, row2) =>
+      row1.zip(row2).map{ case (x, y) => x.abs + y.abs}
+    }
+    def pickBlackWhite(i: Double): Pixel = {
+      if(i < threshold) Pixel(0, 0, 0)
+      else Pixel(255, 255, 255)
+    }
+    val finalMatrix = matrix.map(_.map(pickBlackWhite))
+    finalMatrix
+    //grayscaleImage
+  }
+
+  def applyConvolution(image: GrayscaleImage, kernel: GrayscaleImage) : GrayscaleImage = {
+    def convolution(a: List[List[Double]], b: List[List[Double]]): Double = {
+      val products = a.zip(b).flatMap { case (row1, row2) =>
+        row1.zip(row2).map { case (x, y) => x * y }
+      }
+      products.sum
+    }
+    val radius = (kernel.length-1)/2
+    val neighbors = Util.getNeighbors(image,radius)
+    val matrix =  neighbors.map(_.map(convolution(_,kernel)))
+    matrix
+  }
 
   // ex 5
   def moduloPascal(m: Integer, funct: Integer => Pixel, size: Integer): Image = {

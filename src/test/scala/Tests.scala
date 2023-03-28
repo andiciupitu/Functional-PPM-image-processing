@@ -83,21 +83,21 @@ class Tests extends munit.FunSuite {
     assert(verification._1, verification._2)
   }
 
-//  test("Edge Detection Teapot (20p)") {
-//    val input = Solution.fromStringPPM(Util.readEntire("input/Teapot.ppm").toList)
-//    val result = Solution.toStringPPM(Solution.edgeDetection(input, 0.3))
-//    if (DEBUG) Util.print(result.mkString, "teapot.ppm")
-//    val verification = Util.verifyResult(result.mkString, "teapot.ppm")
-//    assert(verification._1, verification._2)
-//  }
-//
-//  test("Edge Detection Lenna (20p)") {
-//    val input = Solution.fromStringPPM(Util.readEntire("input/Lenna.ppm").toList)
-//    val result = Solution.toStringPPM(Solution.edgeDetection(input, 0.3))
-//    if (DEBUG) Util.print(result.mkString, "lenna.ppm")
-//    val verification = Util.verifyResult(result.mkString, "lenna.ppm")
-//    assert(verification._1, verification._2)
-//  }
+  test("Edge Detection Teapot (20p)") {
+    val input = Solution.fromStringPPM(Util.readEntire("input/Teapot.ppm").toList)
+    val result = Solution.toStringPPM(Solution.edgeDetection(input, 0.3))
+    if (DEBUG) Util.print(result.mkString, "teapot.ppm")
+    val verification = Util.verifyResult(result.mkString, "teapot.ppm")
+    assert(verification._1, verification._2)
+  }
+
+  test("Edge Detection Lenna (20p)") {
+    val input = Solution.fromStringPPM(Util.readEntire("input/Lenna.ppm").toList)
+    val result = Solution.toStringPPM(Solution.edgeDetection(input, 0.3))
+    if (DEBUG) Util.print(result.mkString, "lenna.ppm")
+    val verification = Util.verifyResult(result.mkString, "lenna.ppm")
+    assert(verification._1, verification._2)
+  }
 
   // modulo pascal
   test("Modulo Pascal 2 (10p)"){
